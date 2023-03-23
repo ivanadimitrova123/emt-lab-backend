@@ -93,4 +93,11 @@ public class BookServiceImpl implements BookService {
     public void deleteById(Long id) {
          this.bookRepository.deleteById(id);
     }
+
+    @Override
+    public void markBookAsTaken(Long id) {
+        Book b=bookRepository.findById(id).orElseThrow(()->new BookNotFound(id));
+        b.setAvailableCopies(b.getAvailableCopies() - 1);
+        bookRepository.save(b);
+    }
 }

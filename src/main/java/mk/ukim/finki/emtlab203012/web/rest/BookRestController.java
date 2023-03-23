@@ -2,6 +2,7 @@ package mk.ukim.finki.emtlab203012.web.rest;
 
 import mk.ukim.finki.emtlab203012.model.Book;
 import mk.ukim.finki.emtlab203012.model.dto.BookDto;
+import mk.ukim.finki.emtlab203012.model.exeptions.BookNotFound;
 import mk.ukim.finki.emtlab203012.service.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +50,17 @@ public class BookRestController {
         this.bookService.deleteById(id);
         if(this.bookService.findById(id).isEmpty()) return ResponseEntity.ok().build();
         return ResponseEntity.badRequest().build();
+    }
+    @PutMapping("/mark/{id}")
+    public ResponseEntity<Book> markBookAsTaken(@PathVariable Long id){
+        Book book = bookService.findById(id).orElseThrow(()-> new BookNotFound(id));
+        if(book == null){
+            return ResponseEntity.notFound().build();
+        }
+        else {
+            bookService.markBookAsTaken(id);
+            return ResponseEntity.ok(book);
+        }
     }
 }
 

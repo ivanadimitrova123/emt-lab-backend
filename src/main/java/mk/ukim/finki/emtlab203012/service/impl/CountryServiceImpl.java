@@ -1,9 +1,8 @@
 package mk.ukim.finki.emtlab203012.service.impl;
 
-import mk.ukim.finki.emtlab203012.model.Book;
 import mk.ukim.finki.emtlab203012.model.Country;
 import mk.ukim.finki.emtlab203012.model.dto.CountryDto;
-import mk.ukim.finki.emtlab203012.model.exeptions.ContryNotFound;
+import mk.ukim.finki.emtlab203012.model.exeptions.CountryNotFound;
 import mk.ukim.finki.emtlab203012.repository.CountryRepository;
 import mk.ukim.finki.emtlab203012.service.CountryService;
 import org.springframework.stereotype.Service;
@@ -52,7 +51,7 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public Optional<Country> edit(Long id, String name, String continent) {
-        Country country = this.countryRepository.findById(id).orElseThrow(()->new ContryNotFound(id));
+        Country country = this.countryRepository.findById(id).orElseThrow(()->new CountryNotFound(id));
         country.setContinent(continent);
         country.setName(name);
         this.countryRepository.save(country);
@@ -61,7 +60,7 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public Optional<Country> edit(Long id, CountryDto countryDto) {
-        Country country = this.countryRepository.findById(id).orElseThrow(()->new ContryNotFound(id));
+        Country country = this.countryRepository.findById(id).orElseThrow(()->new CountryNotFound(id));
         country.setName(countryDto.getName());
         country.setContinent(countryDto.getContinent());
         this.countryRepository.save(country);
